@@ -5,13 +5,12 @@
 using namespace std;
 
 #define vi vector<int>
-#define MAXN 10002
 #define INF 1<<29
 
 int n, m, source, sink;
-vector<vi> adj;       // Adjacency linked list
-vector<vi> cost;      // Cost matrix
-vector<vi> capacity;  // Capacity matrix
+vector<vi> adj;         // Adjacency linked list
+vector<vi> cost;        // Cost matrix
+vector<vi> capacity;    // Capacity matrix
 vector<int> degIn;      // Degree in
 vector<int> degOut;     // Degree out
 fstream fin, fout;
@@ -21,10 +20,10 @@ int totalCost = 0;
 
 void bellman(int source, vector<int>& distance, vector<int>& trace) {
     queue<int> q;
-    vector<bool> inQueue(n+1, false);
+    vector<bool> inQueue(n+2, false);
     
-    distance.assign(n+1, INF);
-    trace.assign(n+1, -1);
+    distance.assign(n+2, INF);
+    trace.assign(n+2, -1);
 
     distance[source] = 0;
     q.push(source);
@@ -76,11 +75,11 @@ int main() {
 
     // Input
     fin >> n >> m;
-    capacity.assign(n+1, vi(n+1, 0));
-    cost.assign(n+1, vi(n+1, 0));
-    adj.assign(n+1, vi());
-    degIn.assign(n+1, 0);
-    degOut.assign(n+1, 0);
+    capacity.assign(n+2, vi(n+2, 0));
+    cost.assign(n+2, vi(n+2, 0));
+    adj.assign(n+2, vi());
+    degIn.assign(n+2, 0);
+    degOut.assign(n+2, 0);
 
     for (int i=0;i<m;i++) {
         int u, v, c, w;
@@ -105,9 +104,12 @@ int main() {
             capacity[0][i] = INF;
         }
         if (degOut[i] == 0){
-            sink = i;
+            adj[n+1].push_back(i);
+            adj[i].push_back(n+1);
+            capacity[i][n+1] = INF;
         }
     }
+    sink = n+1;
     source = 0;
 
     // Solution
