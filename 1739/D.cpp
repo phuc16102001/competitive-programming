@@ -6,43 +6,61 @@ using namespace std;
 #define pii pair<int, int>
 #define vi vector<int>
 #define vpii vector<pii>
-#define for(i,a,b) for(int i=a;i<=b;i++)
+#define forf(i,a,b) for(int i=a;i<=b;i++)
 #define fi first
 #define se second
+#define max(a,b) (a>b?a:b)
+#define pb push_back
 
+vi parent;
+vector<vi> child;
+int cntNode, minHeight;
 
-int findHeight(int node, vi& p, vpii& h) {
-    if (node==1) return 1;
-    if (h[p[node]].se == -1) {
-        h[p[node]].se = findHeight(p[node], p, h)+1;
+int findHeight(int node) {
+    int h = 1;
+    for (auto next:child[node]) {
+        int nextHeight = findHeight(next);
+        h = max(h, nextHeight+1);
     }
-    return h[p[node]].se+1;
-}
-
-bool sortSec(pii &a , pii &b) {
-    return a.se > b.se;
+    if (h==minHeight && parent[node]!=-1 && parent[node]!=1) {
+        cntNode++;
+        return 0;
+    }
+    return h;
 }
 
 void solve() {
     int n, k;
     cin >> n >> k;
-    vi p(n+1,-1);
-    vpii h(n+1);
-    h[1] = {1,0};
-    for(i,2,n) {
-        cin >> p[i];
-        h[i] = {i,-1};
+
+    parent.assign(n+1, -1);
+    child.assign(n+1, {});
+
+    forf(i,2,n) {
+        int t;
+        cin >> t;
+        child[t].pb(i);
+        parent[i] = t;
     }
-    for(i,1,n) {
-        if (h[i].se==-1) {
-            h[i].se = findHeight(i, p, h);
+
+    // Finding minHeight that can achieve with maximum K splash
+    int l=1;
+    int r=n-1;
+    int res = n-1;
+    while (l<=r) {
+        int mid = (l+r)/2;
+        cntNode = 0;
+        minHeight = mid;
+        findHeight(1);
+
+        if (cntNode<=k) {
+            res = minHeight;
+            r = mid-1;
+        } else {
+            l = mid+1;
         }
     }
-    sort(h.begin()+1,h.end(),sortSec);
-    for (i,1,n) {
-        cout << h[i].fi << " " << h[i].se << endl;
-    }
-    cout << h[min(k+1,n)].se << endl<< endl;
+    cout << res << endl;
 }
 
 int main() {
