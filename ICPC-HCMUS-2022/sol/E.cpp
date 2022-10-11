@@ -3,6 +3,7 @@ using namespace std;
 
 #define pb push_back
 #define ll long long
+#define MOD 1000000007
 
 ll res = 0;
 
@@ -15,15 +16,17 @@ void solve() {
     }
 
     res = 0;
-    vector<int> cnt(n,0);
+    set<int> setNum;
+    vector<ll> cnt(1<<m,0);
     for (int i=n-1;i>=0;i--){
         int num = stoi(a[i], nullptr, 2);
-        int nPath = cnt[((1<<m)-1)^num]+1; 
-        res += nPath;
-        cnt[num] += nPath;
+        ll nPath = (cnt[((1<<m)-1)^num]+1)%MOD; 
+        res = (res+nPath)%MOD;
+        cnt[num] = (cnt[num]+nPath)%MOD;
     }
-    cout << res;
-}
+
+    cout << res << endl;
+}   
 
 int main() {
     int nTest;
