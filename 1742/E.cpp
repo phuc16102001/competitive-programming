@@ -36,12 +36,14 @@ void solve() {
         int k;
         cin >> k;
         int idx = upper_bound(maxLeft.begin(), maxLeft.end(), k) - maxLeft.begin();
-        cout << sum[idx] << " ";
+        
+        if (idx==0) {
+            cout << 0 << " ";
+        } else {
+            cout << sum[idx-1] << " ";
+        }
     }
     cout << endl;
-}
-
-void preprocess() {
 }
 
 int main() {

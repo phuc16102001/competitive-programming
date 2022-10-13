@@ -41,19 +41,14 @@ void solve() {
         while (ida<26 || idb>=0) {
             while (ida<26 && a[ida]==0) ida++;
             while (idb>=0 && b[idb]==0) idb--;
-            if (ida==26 || ida<idb) {
-                cout << "YES\n";
-                break;
-            }
-            if (ida>idb) {
-                cout << "NO\n";
-                break;
-            }
+            if (idb==-1) { cout << "NO\n"; break; }
+            if (ida==26) { cout <<  "YES\n"; break; }
+            if (ida>idb) { cout << "NO\n"; break; }
+            if (ida<idb) { cout << "YES\n"; break; }
             int cnt = min(a[ida], b[idb]);
             a[ida] -= cnt;
             b[idb] -= cnt;
         }
-        cout << ida << " " << idb << endl;
 
         for (int i=0;i<26;i++) {
             a[i] = ta[i];

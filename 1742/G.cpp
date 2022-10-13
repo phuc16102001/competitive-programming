@@ -13,6 +13,7 @@ void solve() {
     cin >> n;
     vector<unsigned int> a(n, 0);
     vector<unsigned int> b(n, 0);
+    vector<bool> printed(n, false);
     for (int i=0;i<n;i++) {
         cin >> a[i];
         b[i] = a[i];
@@ -27,12 +28,16 @@ void solve() {
 
     while (b[idx]!=0) {
         cout << a[idx] << " ";
+        printed[idx]=true;
         int value = b[idx];
         idx = 0;
         for (int i=0;i<n;i++) {
             b[i] = b[i] & (~value);
             if (b[i]>b[idx]) idx = i;
         }
+    }
+    for (int i=0;i<n;i++){
+        if (!printed[i]) cout << a[i] << " ";
     }
     cout << endl;
 }
