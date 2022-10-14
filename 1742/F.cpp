@@ -42,10 +42,10 @@ void solve() {
             while (ida<26 && a[ida]==0) ida++;
             while (idb>=0 && b[idb]==0) idb--;
             if (idb==-1) { cout << "NO\n"; break; }
-            if (ida==26) { cout <<  "YES\n"; break; }
+            if (ida==26) { cout << "YES\n"; break; }
             if (ida>idb) { cout << "NO\n"; break; }
             if (ida<idb) { cout << "YES\n"; break; }
-            int cnt = min(a[ida], b[idb]);
+            ll cnt = min(a[ida], b[idb]);
             a[ida] -= cnt;
             b[idb] -= cnt;
         }
