@@ -1,4 +1,0 @@
-﻿  Source.cpp
-C:\Users\VuongPhuc\source\repos\CodeForces\1428E\Source.cpp(62,11): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\VuongPhuc\source\repos\CodeForces\1428E\Source.cpp(63,11): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-  1428E.vcxproj -> C:\Users\VuongPhuc\source\repos\CodeForces\Debug\1428E.exe
