@@ -2,44 +2,41 @@
 
 using namespace std;
 
-const int MOD = 1e9+7;
-const int inverse = 5e8+4;
+#define MOD 1000000007
 #define ll long long
-#define int long long
+ll ans;
 
-ll binpow(ll a, ll b) {
-    int res = 1;
-    while (b > 0) {
-        if (b&1) res = res * a % MOD;
-        a = a * a % MOD;
-        b >>= 1;
+ll getMod(ll a, ll m) {
+    while (a < 0) a += m;
+    return a % m;
+}
+
+void solve() {
+    ans = 0;
+    string s;
+    cin >> s;
+    ll sz = s.size();
+    s = ' ' + s;
+    for (int i = 1; i <= sz; i++) {
+        ll l = i;
+        ll r = sz - i + 1;
+        ll nSubstr = getMod(l * r, MOD);  //(from left) * (to right)
+
+        // If we have a substr with length x, then we can create another substr with length y=n-x
+        // In total, we have (l*r)/2 pairs with length (n+1)
+        ll sumLength = getMod(sz + 1, MOD);
+        ll value = s[i] - 'a' + 1;
+
+        ll tmp = getMod(getMod(sumLength * nSubstr, MOD) * value, MOD);
+        ll cnt = getMod(tmp * 500000004, MOD);
+        ans = getMod(ans + cnt, MOD);
     }
-    return res;
+    cout << ans << "\n";
 }
 
 signed main() {
-    unordered_map<char,int> mp;
-    for (char i='a'; i <= 'z';i++) mp[i] = i-'a'+1;
-    int t; cin >> t;
-    while (t--) {
-        ll ans = 0;
-        ll inverse = binpow(2,MOD-2);
-
-        string s; cin >> s;
-        int sz = s.size();
-        s = ' ' + s;
-        for (int i = 1; i <= sz; i++) {
-            int l = i, r = sz-i+1;
-            int a = ((l%MOD)*(r%MOD))%MOD;
-            int b = (l%MOD+r%MOD)%MOD;
-            int c = mp[s[i]]%MOD;
-
-            int d = ((a%MOD)*(b%MOD))%MOD;
-            int e = (d%MOD * (c%MOD))%MOD;
-            int f = (e%MOD*(inverse%MOD))%MOD;
-            ans = ((ans%MOD) + (f%MOD))%MOD;
-        }
-        cout << ans << "\n";
-    }
+    int nTest;
+    cin >> nTest;
+    while (nTest--) solve();
     return 0;
 }
