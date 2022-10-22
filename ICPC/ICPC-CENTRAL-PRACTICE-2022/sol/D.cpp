@@ -1,6 +1,9 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+#define NORMAL 0
+#define ROTATE 1
+
 struct Point {
     int x, y;
     Point() : x(0), y(0){};
@@ -67,13 +70,13 @@ int main() {
             bool c2 = isOverlap(rectA, rectB) && isOverlap(rotateA, rectB);
             bool c3 = isOverlap(rotateA, rectB) && isOverlap(rotateA, rotateB);
             bool c4 = isOverlap(rectA, rotateB) && isOverlap(rotateA, rotateB);
-            if (c1) checkType[0][i] = false;
-            if (c2) checkType[0][j] = false;
-            if (c3) checkType[1][i] = false;
-            if (c4) checkType[1][j] = false;
+            if (c1) checkType[NORMAL][i] = false;
+            if (c2) checkType[NORMAL][j] = false;
+            if (c3) checkType[ROTATE][i] = false;
+            if (c4) checkType[ROTATE][j] = false;
 
-            bool f1 = checkType[0][i] == false && checkType[1][i] == false;
-            bool f2 = checkType[0][j] == false && checkType[1][j] == false;
+            bool f1 = checkType[NORMAL][i] == false && checkType[ROTATE][i] == false;
+            bool f2 = checkType[NORMAL][j] == false && checkType[ROTATE][j] == false;
             if (f1 || f2) {
                 cout << "NO\n";
                 return 0;
@@ -82,7 +85,7 @@ int main() {
     }
     cout << "YES\n";
     for (int i = 0; i < n; i++) {
-        for (int j = 0; j < 2; j++) {
+        for (int j = NORMAL; j <= ROTATE; j++) {
             if (checkType[j][i]) {
                 cout << (j ? "Q" : "K");
                 break;
